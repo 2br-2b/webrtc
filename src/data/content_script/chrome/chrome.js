@@ -20,8 +20,8 @@ var background = {
 function changeWebRTC(data) {
   var script = document.getElementById("webrtc-control");
   if (script) script.parentNode.removeChild(script);
-  /*  */
-  if (data.state === "enabled") {
+  var isGoogleHangouts = document.location.host === "hangouts.google.com";
+  if (data.state === "enabled" && !isGoogleHangouts) { //Allow Google Hangouts
     try {
       var webrtc = '(' + function () {
         if (typeof navigator.getUserMedia !== "undefined") navigator.getUserMedia = undefined;
