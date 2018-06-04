@@ -20,8 +20,9 @@ var background = {
 function changeWebRTC(data) {
   var script = document.getElementById("webrtc-control");
   if (script) script.parentNode.removeChild(script);
-  var isGoogleHangouts = document.location.host === "hangouts.google.com";
-  if (data.state === "enabled" && !isGoogleHangouts) { //Allow Google Hangouts
+  var allowedUrls = ["hangouts.google.com", "facebook.com"];
+  var isAllowed = allowedUrls.find((url)=>document.location.host === url);
+  if (data.state === "enabled" && !isAllowed) {
     try {
       var webrtc = '(' + function () {
         if (typeof navigator.getUserMedia !== "undefined") navigator.getUserMedia = undefined;
@@ -41,5 +42,7 @@ function changeWebRTC(data) {
       if (head) head.appendChild(script);
     }
     catch (e) {}
+  } else {
+    console.warn("currently allowing ", document.location.host);
   }
 };
